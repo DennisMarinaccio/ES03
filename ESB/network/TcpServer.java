@@ -16,7 +16,7 @@ public class TcpServer {
 		
 		final int SERVER_PORT=8765;
 		String clientMsg = "";
-		
+		String frase = "";
 		try {			 
 			// Creazione del socket sul server e ascolto sulla porta
 			ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
@@ -34,8 +34,13 @@ public class TcpServer {
 	
 				// ---------------------------------------------------------
 				//Lettura dati dal client un righa alla volta   
+				frase = "Comando non trovato";
 				while ((clientMsg=inStream.readLine()).length() != 0) {
-					System.out.println(clientMsg);	
+					System.out.println(clientMsg);
+					if(clientMsg.contains("ACCENDI"))
+						frase = "La luce si accende";
+					else if(clientMsg.contains("SPEGNI"))
+						frase = "La luce si spegne";	
 				}  
 				// Elaborare qui i dati ricevuti dal client 
 				// ---------------------------------------------------------
@@ -45,7 +50,7 @@ public class TcpServer {
 				//clientMsg += "Connection: close\r\n";
 				//clientMsg += "Content-Type: text/plain\r\n";
 				clientMsg += "\r\n";
-				clientMsg += "La luce si accende";
+				clientMsg += frase;
 				outStream.write(clientMsg.getBytes());
 				outStream.flush();
 
